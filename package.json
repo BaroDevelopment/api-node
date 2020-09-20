@@ -1,0 +1,30 @@
+{
+  "name": "barobot-api-node",
+  "version": "0.0.0",
+  "description": "node api for barobot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaroDevelopment/barobot-api-node.git"
+  },
+  "keywords": [
+    "node",
+    "api",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Baris Simonjan",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/BaroDevelopment/barobot-api-node/issues"
+  },
+  "homepage": "https://github.com/BaroDevelopment/barobot-api-node#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
