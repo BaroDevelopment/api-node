@@ -18,3 +18,9 @@ services:
     environment:
       PG_CONNECTION_STRING: your_pg_connection_string
 ```
+
+
+## Environment Variables
+`REDIS_PORT` (defaults to 6379)
+`PG_CONNECTION_STRING`
+`REDIS_HOST` (defaults to "127.0.0.1")

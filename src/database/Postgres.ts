@@ -1,4 +1,4 @@
-import {Client} from 'pg'
+import {Client, QueryResult} from 'pg'
 import LOGGER from '../Logger'
 
 /**
@@ -12,15 +12,30 @@ export default class Postgres {
     }
 
     static getInstance(): Client {
-        if (!Postgres.instance){
-            Postgres.instance = new Client(process.env.PG_CONNECTION_STRING);
+
+        if (!Postgres.instance) {
+            const PG_CONNECTION_STRING = process.env.PG_CONNECTION_STRING || ''
+            Postgres.instance = new Client(PG_CONNECTION_STRING);
         }
+
         return Postgres.instance
     }
 
-    static async connect(){
-        Postgres.getInstance().connect()
+    static async connect() {
+        await Postgres.getInstance().connect()
             .then(() => LOGGER.info(`Connected to Database`))
-            .catch(err => LOGGER.error(`Unable to connect to the database:`))
+            .catch(e => Postgres.LOG_CONNECTION_ERR())
+    }
+
+    static LOG_CONNECTION_ERR = () => LOGGER.error(`Unable to connect to the database. Please check your env var PG_CONNECTION_STRING`)
+
+    static async run(query: string, args: any[]) {
+        try {
+            const result: QueryResult = await Postgres.getInstance().query(query, args)
+            return result
+        } catch (e) {
+            LOGGER.error('Failed to execute: ' + query)
+            throw e
+        }
     }
 }
