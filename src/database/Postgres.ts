@@ -14,7 +14,7 @@ export default class Postgres {
     static getInstance(): Client {
 
         if (!Postgres.instance) {
-            const PG_CONNECTION_STRING = process.env.PG_CONNECTION_STRING || ''
+            const PG_CONNECTION_STRING = process.env.PG_CONNECTION_STRING || 'postgresql://postgres:postgres@localhost:5432/BaroBot'
             Postgres.instance = new Client(PG_CONNECTION_STRING);
         }
 
