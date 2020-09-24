@@ -1,11 +1,8 @@
-import moment from "moment";
+import {DateTime} from 'luxon'
 
 export default class TimeUtils {
     getTimestamp(): string {
-        const format = "DD-MM-YYYY HH:mm:ss"
-        const timestamp = moment(new Date()).format(format)
-            .replace('-', '.')
-            .replace('-', '.')
-        return timestamp
+        const format = "d'.'LL'.'y H':'mm':'ss"
+        return DateTime.fromISO(new Date().toISOString()).toFormat(format)
     }
 }

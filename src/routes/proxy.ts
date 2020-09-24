@@ -10,7 +10,7 @@ const REDIS_KEY = 'proxy'
 
 router.get('/', async (req: Request, res: Response) => {
 
-    const cache = Redis.getInstance().get('proxy', (async (err, data) => {
+    Redis.getInstance().get('proxy', async (err, data) => {
         if (err || !data) {
             const http = await getProxyArray(`https://www.proxy-list.download/api/v1/get?type=http`)
             const https = await getProxyArray(`https://www.proxy-list.download/api/v1/get?type=https`)
@@ -19,14 +19,14 @@ router.get('/', async (req: Request, res: Response) => {
             const proxyList: ProxyList = {http, https, socks4, socks5}
 
             res.json(proxyList)
+            
             const encoded = Buffer.from(JSON.stringify(proxyList)).toString('base64')
             Redis.getInstance().set(REDIS_KEY, encoded, 'EX', 60 * 60 * 24)
-        }
-        else {
+        } else {
             const decoded = Buffer.from(data, 'base64').toString('utf8')
             res.status(201).json(JSON.parse(decoded))
         }
-    }))
+    })
 })
 
 async function getProxyArray(url: string) {
