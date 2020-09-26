@@ -23,18 +23,18 @@ export default class Postgres {
 
     static async connect() {
         await Postgres.getInstance().connect()
-            .then(() => LOGGER.info(`Connected to Database`))
+            .then(() => LOGGER.getInstance().info(`Connected to Database`))
             .catch(e => Postgres.LOG_CONNECTION_ERR())
     }
 
-    static LOG_CONNECTION_ERR = () => LOGGER.error(`Unable to connect to the database. Please check your env var PG_CONNECTION_STRING`)
+    static LOG_CONNECTION_ERR = () => LOGGER.getInstance().error(`Unable to connect to the database. Please check your env var PG_CONNECTION_STRING`)
 
     static async run(query: string, args: any[]) {
         try {
             const result: QueryResult = await Postgres.getInstance().query(query, args)
             return result
         } catch (e) {
-            LOGGER.error('Failed to execute: ' + query)
+            LOGGER.getInstance().error('Failed to execute: ' + query)
             throw e
         }
     }

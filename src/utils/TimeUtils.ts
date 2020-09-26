@@ -1,8 +1,10 @@
 import {DateTime} from 'luxon'
 
 export default class TimeUtils {
-    getTimestamp(): string {
+    // https://github.com/moment/luxon/blob/master/docs/formatting.md
+    public static getTimestamp(date?: Date): string {
+        const dateTime = date ?  date.toISOString() : new Date().toISOString()
         const format = "d'.'LL'.'y H':'mm':'ss"
-        return DateTime.fromISO(new Date().toISOString()).toFormat(format)
+        return DateTime.fromISO(dateTime).toFormat(format)
     }
 }

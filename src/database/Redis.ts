@@ -19,11 +19,11 @@ export default class Redis {
             Redis.instance = redis.createClient(port, host);
 
             Redis.instance.on("error", function(error : Error) {
-                LOGGER.error(error)
+                LOGGER.getInstance().error(error)
             });
 
             Redis.instance.on("connect", () => {
-                LOGGER.info('Connected to redis server')
+                LOGGER.getInstance().info('Connected to redis server')
             });
         }
 

@@ -1,31 +1,45 @@
 import winston from 'winston';
 import TimeUtils from "./utils/TimeUtils";
 
-winston.addColors({
-    error: 'red',
-    warn: 'yellow',
-    info: 'cyan',
-    debug: 'green',
-    silly: 'blue'
-})
+/**
+ * Singelton class
+ */
 
-// Logger configuration
-const logConfiguration = {
-    'transports': [
-        new winston.transports.Console({
-            level: 'silly'
-        }),
-    ],
-    format: winston.format.combine(
-        winston.format.colorize({all: true}),
-        winston.format.label({label: ''}),
-        winston.format.printf((info: any) => {
-            return `${new TimeUtils().getTimestamp()} ${info.label}:[${info.level}]: ${info.message}`;
-        })
-    )
-};
+export default class Logger {
+    private static instance: winston.Logger
 
-// Create the logger
-const logger = winston.createLogger(logConfiguration);
+    private constructor() {
+    }
 
-export default logger;
+    static getInstance(): winston.Logger {
+
+        if (!Logger.instance) {
+            winston.addColors({
+                error: 'red',
+                warn: 'yellow',
+                info: 'cyan',
+                debug: 'green',
+                silly: 'blue'
+            })
+            // Logger configuration
+            const logConfiguration = {
+                'transports': [
+                    new winston.transports.Console({
+                        level: 'silly'
+                    }),
+                ],
+                format: winston.format.combine(
+                    winston.format.colorize({all: true}),
+                    winston.format.label({label: ''}),
+                    winston.format.printf((info: any) => {
+                        return `${TimeUtils.getTimestamp()} ${info.label}:[${info.level}]: ${info.message}`;
+                    })
+                )
+            };
+            // Create the logger
+            Logger.instance = winston.createLogger(logConfiguration);
+        }
+
+        return Logger.instance
+    }
+}

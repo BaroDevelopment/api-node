@@ -1,0 +1,1 @@
+export type GitlabEventType = "issue" | "push" | "tag_push" | "note" | "merge_request" | "wiki_page" | "pipeline" | "build" | "deployment"
